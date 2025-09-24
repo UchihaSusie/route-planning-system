@@ -177,17 +177,22 @@ def aStarReduction(problem: SearchProblem, heuristic: Heuristic) -> SearchProble
     class NewSearchProblem(SearchProblem):
         def startState(self) -> State:
             # BEGIN_YOUR_CODE 
-            raise Exception("Not implemented yet")        
+            return problem.startState()
             # END_YOUR_CODE
 
         def isEnd(self, state: State) -> bool:
             # BEGIN_YOUR_CODE 
-            raise Exception("Not implemented yet")            
+            return problem.isEnd(state)
             # END_YOUR_CODE
 
         def successorsAndCosts(self, state: State) -> List[Tuple[str, State, float]]:
             # BEGIN_YOUR_CODE 
-            raise Exception("Not implemented yet")
+            successors = []
+            for action, nextState, cost in problem.successorsAndCosts(state):
+                heuristic_cost = heuristic.evaluate(nextState)
+                adjusted_cost = cost + heuristic_cost
+                successors.append((action, nextState, adjusted_cost))
+            return successors
             # END_YOUR_CODE
 
     return NewSearchProblem()
@@ -206,12 +211,20 @@ class StraightLineHeuristic(Heuristic):
         self.endTag = endTag
         self.cityMap = cityMap
 
-        # Precompute all the Geolocations associated with endTag
+        # Precompute all the Geo locations associated with endTag
         # BEGIN_YOUR_CODE
-        raise Exception("Not implemented yet")
+        self.endGeoLocations = []
+        for location, tags in self.cityMap.tags.items():
+            if endTag in tags:
+                self.endGeoLocations.append(self.cityMap.geoLocations[location])
         # END_YOUR_CODE
 
     def evaluate(self, state: State) -> float:
         # BEGIN_YOUR_CODE 
-        raise Exception("Not implemented yet")
+        currentGeoLocation = self.cityMap.geoLocations[state.location]
+        min_distance = float('inf')
+        for endGeoLocation in self.endGeoLocations:
+            distance = computeDistance(currentGeoLocation, endGeoLocation)
+            min_distance = min(min_distance, distance)
+        return min_distance
         # END_YOUR_CODE
