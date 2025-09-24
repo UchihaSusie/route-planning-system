@@ -6,10 +6,10 @@ various dependency requirements.
 ## Prerequisites
 
 Install the following dependencies, ideally in a virtual environment such as
- [mamba](https://github.com/conda-forge/miniforge#install) (faster) or [miniconda](https://docs.conda.io/en/latest/miniconda.html#linux-installers) (slower), for working with 
- [OpenStreetMap](https://www.openstreetmap.org/) (OSM) data, and visualizing maps nicely in the browser.
+[mamba](https://github.com/conda-forge/miniforge#install) (faster) or [miniconda](https://docs.conda.io/en/latest/miniconda.html#linux-installers) (slower), for working with
+[OpenStreetMap](https://www.openstreetmap.org/) (OSM) data, and visualizing maps nicely in the browser.
 
-***Please use python 3.8.***
+**_Please use python 3.8._**
 
 ```bash
 # Recommended: use a virtual env (make sure the virtual env is installed on your machine)
@@ -40,10 +40,11 @@ Landmark files have the following format:
   ...
 ]
 ```
+
 See `data/stanford-landmarks.json` for an example. You can add your own to `data/custom-landmarks.json`.
 
-To add a landmark, find it on [OpenStreetMap](https://www.openstreetmap.org/) via [nominatim](https://nominatim.openstreetmap.org/) and 
-copy the `Center Point (lat,lon)` from the `nominatim` webpage 
+To add a landmark, find it on [OpenStreetMap](https://www.openstreetmap.org/) via [nominatim](https://nominatim.openstreetmap.org/) and
+copy the `Center Point (lat,lon)` from the `nominatim` webpage
 (e.g., [Gates Building](https://nominatim.openstreetmap.org/ui/details.html?osmtype=W&osmid=232841885&class=building),
 and set that to be the value of `"geo"`.
 

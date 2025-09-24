@@ -113,17 +113,29 @@ class WaypointsShortestPathProblem(SearchProblem):
 
     def startState(self) -> State:
         # BEGIN_YOUR_CODE 
-        raise Exception("Not implemented yet")
+        return State(location=self.startLocation, memory=())
         # END_YOUR_CODE
 
     def isEnd(self, state: State) -> bool:
         # BEGIN_YOUR_CODE
-        raise Exception("Not implemented yet")
+        has_end_tag = self.endTag in self.cityMap.tags[state.location]
+        all_waypoints_visited = set(state.memory) >= set(self.waypointTags)
+        return has_end_tag and all_waypoints_visited
         # END_YOUR_CODE
 
     def successorsAndCosts(self, state: State) -> List[Tuple[str, State, float]]:
         # BEGIN_YOUR_CODE 
-        raise Exception("Not implemented yet")
+        successors = []
+        current_memory = set(state.memory)
+        
+        for nextLocation, cost in self.cityMap.distances[state.location].items():
+            new_tags = set(self.cityMap.tags[nextLocation])
+            updated_memory = current_memory.union(new_tags)
+            relevant_memory = tuple(sorted(updated_memory.intersection(set(self.waypointTags))))
+            
+            successors.append((nextLocation, State(location=nextLocation, memory=relevant_memory), cost))
+        
+        return successors
         # END_YOUR_CODE
 
 
@@ -141,9 +153,11 @@ def getSanJoseWaypointsShortestPathProblem() -> WaypointsShortestPathProblem:
     """
     cityMap = createSanJoseMap()
     # BEGIN_YOUR_CODE (our solution is 4 lines of code, but don't worry if you deviate from this)
-    raise Exception("Not implemented yet")
+    startLocation = locationFromTag(makeTag("landmark", "northeastern_building"), cityMap)
+    waypointTags = [makeTag("amenity", "parking_entrance"), makeTag("amenity", "food")]
+    endTag = makeTag("landmark", "san_jose_state")
+    return WaypointsShortestPathProblem(startLocation, waypointTags, endTag, cityMap)
     # END_YOUR_CODE
-    # return WaypointsShortestPathProblem(startLocation, waypointTags, endTag, cityMap)
 
 ########################################################################################
 # Problem 4a: A* to UCS reduction
